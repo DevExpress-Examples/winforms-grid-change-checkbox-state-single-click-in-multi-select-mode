@@ -3,17 +3,34 @@
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/E2166)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
-<!-- default file list -->
-*Files to look at*:
+
+# WinForms Data Grid - Change the state of a checkbox with a single click (multi-select mode)
+
+This example shows how to handle the `MouseDown` event in Grid View so that users can change the state of a checkbox with a single click. In this example, the [OptionsSelection.MultiSelectMode](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridOptionsSelection.MultiSelectMode) property is set to `GridMultiSelectMode.CellSelect`.
+
+```csharp
+private void gridView1_MouseDown(object sender, MouseEventArgs e) {
+    GridHitInfo hitInfo = gridView1.CalcHitInfo(e.Location);
+    if (hitInfo.InRowCell) {
+        if (hitInfo.Column.RealColumnEdit is RepositoryItemCheckEdit) {
+            gridView1.FocusedColumn = hitInfo.Column;
+            gridView1.FocusedRowHandle = hitInfo.RowHandle;
+            gridView1.ShowEditor();
+            CheckEdit edit = gridView1.ActiveEditor as CheckEdit;
+            if (edit == null) return;
+            edit.Toggle();
+            DXMouseEventArgs.GetMouseArgs(e).Handled = true;
+        }
+    }
+}
+```
+
+
+## Files to Review
 
 * [Form1.cs](./CS/Form1.cs) (VB: [Form1.vb](./VB/Form1.vb))
-* [Program.cs](./CS/Program.cs) (VB: [Program.vb](./VB/Program.vb))
-<!-- default file list end -->
-# How to change a checkbox's state using a single mouse click in multiselection mode
 
 
-<p>This example demonstrates how to provide the capability to change an in-place checkbox's state using a single click when the OptionsSelection.MultiSelectMode is CellSelect.</p>
+## Documentation
 
-<br/>
-
-
+* [Multiple Row and Cell Selection](https://docs.devexpress.com/WindowsForms/711/controls-and-libraries/data-grid/focus-and-selection-handling/multiple-row-and-cell-selection)
